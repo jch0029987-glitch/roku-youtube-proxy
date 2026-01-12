@@ -1,24 +1,36 @@
-steps:
-  - name: Checkout repository
-    uses: actions/checkout@v4
+name: Build Roku Channel ZIP
 
-  - name: Setup Node.js
-    uses: actions/setup-node@v4
-    with:
-      node-version: '20'
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
-  - name: Install roku-deploy
-    run: npm install -g roku-deploy
+jobs:
+  build:
+    runs-on: ubuntu-latest
 
-  - name: Prep files to staging (offline)
-    run: roku-deploy prepublishToStaging --rootDir . --stagingDir ./staging --files "manifest" "source/**/*" "components/**/*" "images/**/*"
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-  - name: Create .zip package (offline)
-    run: roku-deploy zipPackage --stagingDir ./staging --outDir ./dist --outFile roku-youtube-proxy-channel
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
 
-  - name: Upload .zip artifact
-    uses: actions/upload-artifact@v4
-    with:
-      name: roku-channel-zip
-      path: dist/roku-youtube-proxy-channel.zip
-      if-no-files-found: error
+      - name: Install roku-deploy
+        run: npm install -g roku-deploy
+
+      - name: Prepare files to staging folder (offline)
+        run: roku-deploy prepublishToStaging --rootDir . --stagingDir ./staging --files "manifest" "source/**/*" "components/**/*" "images/**/*"
+
+      - name: Create .zip package (offline)
+        run: roku-deploy zipPackage --stagingDir ./staging --outDir ./dist --outFile roku-youtube-proxy-channel
+
+      - name: Upload .zip artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: roku-channel-zip
+          path: dist/roku-youtube-proxy-channel.zip
+          if-no-files-found: error
