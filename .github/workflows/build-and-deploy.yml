@@ -17,17 +17,23 @@ jobs:
       - name: Install zip utility
         run: sudo apt-get update && sudo apt-get install -y zip
 
-      - name: Create staging folder and copy files
+      - name: Prepare files for zipping
         run: |
           mkdir -p staging
-          cp -r manifest source components images staging/ 2>/dev/null || true  # Ignore if some folders missing
+          cp manifest staging/ 2>/dev/null || true
+          cp -r source staging/ 2>/dev/null || true
+          cp -r components staging/ 2>/dev/null || true
+          cp -r images staging/ 2>/dev/null || true
+          # Add more folders here if you have them (e.g., pkg, fonts)
 
-      - name: Zip the channel (Roku format: files in root of zip)
+      - name: Create Roku-compatible .zip
         working-directory: staging
-        run: zip -r ../dist/roku-youtube-proxy-channel.zip .
+        run: zip -r ../roku-youtube-proxy-channel.zip .
 
-      - name: Create dist folder if needed
-        run: mkdir -p dist
+      - name: Move zip to dist folder
+        run: |
+          mkdir -p dist
+          mv roku-youtube-proxy-channel.zip dist/
 
       - name: Upload .zip artifact
         uses: actions/upload-artifact@v4
