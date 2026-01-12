@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="NetworkDetector" extends="Task">
+  <interface>
+    <field id="isLikelyTethered" type="boolean" />
+    <field id="detectionReason" type="string" />
+  </interface>
+
+  <script type="text/brightscript" uri="pkg:/components/NetworkDetector.brs" />
+</component>

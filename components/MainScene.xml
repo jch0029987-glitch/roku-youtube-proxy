@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="MainScene" extends="Scene">
+  <interface>
+    <field id="exitApp" type="boolean" alias="true" />
+  </interface>
+
+  <children>
+    <!-- Add UI elements here later: RowList, Label, etc. -->
+    <Label
+      id="welcomeLabel"
+      text="Proxy YouTube Loading..."
+      horizAlign="center"
+      vertAlign="center"
+      width="1280"
+      height="720"
+      font="font:MediumBoldSystemFont" />
+  </children>
+
+  <script type="text/brightscript" uri="pkg:/components/MainScene.brs" />
+</component>
