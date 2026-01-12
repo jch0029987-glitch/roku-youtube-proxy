@@ -20,14 +20,13 @@ jobs:
         node-version: '20'
 
     - name: Install roku-deploy
-      run: npm install -g @rokucommunity/roku-deploy
+      run: npm install -g roku-deploy
 
     - name: Create package (.zip)
       run: |
         roku-deploy createPackage \
           --outDir ./dist \
           --outFile roku-youtube-proxy-channel
-
     - name: Upload .zip artifact
       uses: actions/upload-artifact@v4
       with:
